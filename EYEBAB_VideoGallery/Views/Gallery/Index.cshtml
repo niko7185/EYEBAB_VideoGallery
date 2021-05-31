@@ -15,6 +15,18 @@
     {
         lang = requestCulture.RequestCulture.Culture.Name;
     }
+    if (categories == null)
+    {
+        categories = new List<string>() {
+        "alle", "test", "samsyn",
+        "koncentration", "synsfelt",
+        "koordination", "visualisering",
+        "afkodning", "synsindtryk",
+        "øjenbevægelser", "læsning",
+        "rækkefølge", "rytme",
+        "overblik", "reaktion"
+        };
+    }
 
 
 }
@@ -244,44 +256,44 @@
     
     const dummyData = [
         {
-            vidId: "OK4tP8kJh8I",
-            header: "App - Figure It",
-            categories: ["afkodning", "overblick"],
-            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+            videoLink: "OK4tP8kJh8I",
+            title: "App - Figure It",
+            categories: ["afkodning", "overblik"],
+            description: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
                 "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
-            date: "2021-05-19T13:44:00",
+            date: "2021-05-19 13:44:00",
         },
         {
-            vidId: "https://www.youtube.com/watch?v=d2_jJVjZogA",
-            header: "App - Peripheral Chart",
-            categories: ["overblick", "reaktion"],
-            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+            videoLink: "https://www.youtube.com/watch?v=d2_jJVjZogA",
+            title: "App - Peripheral Chart",
+            categories: ["overblik", "reaktion"],
+            description: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
                 "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
-            date: "2021-05-19T13:43:00",
+            date: "2021-05-19 13:43:00",
         },
         {
-            vidId: "https://www.youtube.com/watch?v=h-jl0BZvxh0",
-            header: "App - Rotation Match",
-            categories: ["reaktion", "overblick", "synsfelt"],
-            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+            videoLink: "https://www.youtube.com/watch?v=h-jl0BZvxh0",
+            title: "App - Rotation Match",
+            categories: ["reaktion", "overblik", "synsfelt"],
+            description: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
                 "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
-            date: "2021-05-19T13:42:00",
+            date: "2021-05-19 13:42:00",
         },
         {
-            vidId: "https://www.youtube.com/watch?v=2HKNFVUoTFg",
-            header: "App - Arrow",
-            categories: ["afkodning", "overblick", "koncentration", "reaktion"],
-            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+            videoLink: "https://www.youtube.com/watch?v=2HKNFVUoTFg",
+            title: "App - Arrow",
+            categories: ["afkodning", "overblik", "koncentration", "reaktion"],
+            description: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
                 "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
-            date: "2021-05-19T13:41:00",
+            date: "2021-05-19 13:41:00",
         },
         {
-            vidId: "https://www.youtube.com/watch?v=bN4qjIFZP-s",
-            header: "App - Pathfinder",
+            videoLink: "https://www.youtube.com/watch?v=bN4qjIFZP-s",
+            title: "App - Pathfinder",
             categories: ["afkodning", "rækkefølge"],
-            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+            description: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
                 "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
-            date: "2021-05-19T13:40:00",
+            date: "2021-05-19 13:40:00",
         },
     ];
     const dataURL = "https://localhost:44389/api/Gallery/";
@@ -344,9 +356,15 @@
             .catch(err => { throw err });
 
     }
-    loadData();
+    //Uncomment when the url is linked to the correct api
+    //loadData();
 
-    //Remove video gallery and replace it
+    //Remove when real data is provided
+    defaultGalleryData = dummyData;
+    selectCategory("alle", 0);
+    //---------------------------------
+
+    //Removes video gallery and replaces it
     function reloadVideos() {
 
         gallery.innerHTML = "";

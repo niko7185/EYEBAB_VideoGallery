@@ -23,7 +23,9 @@ namespace EYEBAB_VideoGallery.Controllers
             GalleryService service = new GalleryService();
 
             ViewBag.Culture = requestCulture;
-            ViewBag.Categories = service.GetCategories();
+
+            //Replace with a service connected to the database
+            ViewBag.Categories = null;//service.GetCategories();
 
             return View();
         }
