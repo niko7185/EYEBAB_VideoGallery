@@ -1,0 +1,545 @@
+/*
+---------------------- FONTS ----------------------
+*/
+@font-face {
+    font-family: 'Calibri', url('fonts/Calibri/woff/Calibri.woff') format('woff'), /* Modern Browsers */
+    url('fonts/Calibri/otf/Calibri.otf') format('otf'), url('fonts/Calibri/ttf/Calibri') format('truetype'), /* Safari, Android, iOS */
+    url('fonts/Calibri/svg/Calibri.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+/*
+---------------------- LAYOUT ----------------------
+*/
+html, body {
+    background-color: #F0F0F0;
+    height: 100%;
+    font-family: 'Calibri', Fallback, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+/*
+---------------------- EYEBAB LOGO ----------------------
+*/
+.eb-logo {
+    width: 195px;
+    length: 23px;
+}
+/*
+---------------------- LINKS ----------------------
+*/
+
+/*
+---------------------- LINKS - LANGUAGE MENU ----------------------
+*/
+.eb-headerlang {
+    color: #65656f;
+    transition: 0.3s;
+}
+
+a.eb-headerlang:link {
+    color: #65656f;
+    cursor: pointer;
+}
+
+a.eb-headerlang:visited {
+    color: #65656f;
+    cursor: pointer;
+}
+
+a.eb-headerlang:hover {
+    color: #bbbabf;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a.eb-headerlang:active {
+    color: #bbbabf;
+    cursor: pointer;
+    text-decoration: none;
+}
+/*
+---------------------- LINKS - ON DARK BACKGROUND ----------------------
+*/
+.eb-linkbright {
+    color: #eeeef0;
+    transition: 0.3s;
+}
+
+a.eb-linkbright:link {
+    color: #eeeef0;
+    cursor: pointer;
+}
+
+a.eb-linkbright:visited {
+    color: #eeeef0;
+    cursor: pointer;
+}
+
+a.eb-linkbright:hover {
+    color: #ffffff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a.eb-linkbright:active {
+    color: #ffffff;
+    cursor: pointer;
+    text-decoration: none;
+}
+/*
+---------------------- LINKS - ON BRIGHT BACKGROUND ----------------------
+*/
+.eb-linkdark {
+    color: #65656f;
+    transition: 0.3s;
+}
+
+a.eb-linkdark:link {
+    color: #65656f;
+    cursor: pointer;
+}
+
+a.eb-linkdark:visited {
+    color: #65656f;
+    cursor: pointer;
+}
+
+a.eb-linkdark:hover {
+    color: #bbbabf;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a.eb-linkdark:active {
+    color: #bbbabf;
+    cursor: pointer;
+    text-decoration: none;
+}
+/*
+---------------------- BUTTONS ----------------------
+*/
+
+.eb-button {
+    background: #018db1;
+    border-radius: 1.2em;
+    font-family: 'Calibri', Fallback, sans-serif;
+    border: none;
+    color: #ffffff;
+    transition: 0.3s;
+    outline: none;
+    display: inline-block;
+}
+
+    .eb-button:hover {
+        background: #007391;
+        color: #ffffff;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .eb-button:active {
+        background: #00b5e3;
+        outline: none;
+    }
+
+.eb-button-size1 {
+    height: 38px;
+    /* width: 120px; */
+    min-width: 120px;
+    margin-top: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.eb-button-size2 {
+    height: 38px;
+    width: 80px;
+}
+
+/*
+---------------------- DROPDOWN BUTTON ----------------------
+*/
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.eb-dropdown-item {
+    font-family: 'Calibri', Fallback, sans-serif;
+    color: #65656f;
+    transition: 0.3s;
+    display: block;
+    padding-left: 20px;
+}
+
+a.eb-dropdown-item:link {
+    color: #65656f;
+    cursor: pointer;
+}
+
+a.eb-dropdown-item:visited {
+    color: #65656f;
+    cursor: pointer;
+}
+
+a.eb-dropdown-item:hover {
+    color: #bbbabf;
+    cursor: pointer;
+}
+
+a.eb-dropdown-item:active {
+    color: #000000;
+    cursor: pointer;
+}
+
+/*
+---------------------- TABLE HEADER BUTTON ----------------------
+*/
+
+.eb-tableheaderbutton {
+    background: none !important;
+    font-family: 'Calibri', Fallback, sans-serif;
+    color: #65656f;
+    transition: 0.3s;
+    outline: none;
+    border: none;
+    padding: 0 !important;
+    font: inherit;
+    border: 0px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+    .eb-tableheaderbutton:hover {
+        color: #777783;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .eb-tableheaderbutton:active {
+        outline: none;
+    }
+
+/*
+---------------------- TOP BAR ----------------------
+*/
+.eb-topbar {
+    background-color: #dadada;
+    height: 100px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    margin-top: 35px;
+}
+
+/*
+---------------------- TYPOGRAPHY ----------------------
+*/
+
+
+
+.eb-h1 {
+    font-size: 1.667em;
+}
+
+.eb-h2 {
+    font-size: 1.444em;
+}
+
+.eb-h3 {
+    font-size: 20px;
+    font-size: 1.1em;
+}
+
+.eb-h4 {
+    font-size: 1em;
+}
+
+.eb-h5 {
+    font-size: 0.889em;
+    line-height: 0.889em;
+    margin-top: -0.8em;
+}
+
+.eb-p {
+    font-size: 18px;
+    line-height: 20px;
+}
+/*
+---------------------- TEXT STYLES ----------------------
+*/
+
+.eb-bold {
+    font-weight: bold;
+}
+
+.eb-uppercase {
+    text-transform: uppercase;
+}
+
+.eb-subtext {
+    margin-bottom: -25px;
+}
+
+/*
+---------------------- COLORS ----------------------
+*/
+/* Text */
+.eb-white {
+    color: #ffffff;
+}
+
+.eb-grey {
+    color: #64656e;
+}
+/* Background */
+.eb-grey-dark {
+    background-color: #64656e;
+}
+
+.eb-grey-light {
+    background-color: #dadada;
+}
+
+.eb-grey-white {
+    background-color: #F0F0F0;
+}
+
+.eb-h-color {
+    color: #64656e;
+}
+/*
+---------------------- BOXES / INPUT ----------------------
+*/
+.eb-box {
+    border-radius: 5px;
+    padding: 25px 40px 25px 40px;
+    margin-bottom: 25px;
+}
+
+.eb-box-color {
+    background-color: #64656e;
+}
+
+.eb-input-dark[type=text] {
+    background-color: #dbdbdb;
+    color: #404045;
+    border: 0px solid #000000;
+    border-radius: 4px;
+    padding: 4px 6px;
+    margin: 2px;
+}
+
+/*
+---------------------- LAYOUT - SIGN IN ----------------------
+*/
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+    .form-signin .checkbox {
+        font-weight: 400;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+    .form-signin input[type="email"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: -1px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+.eb-EditTextLabel {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    padding: 0px;
+}
+
+.imgApp {
+    cursor: pointer;
+}
+
+.fullScreen {
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none !important;
+}
+
+#cbhAdd {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    padding-right: 8px !important;
+    padding-left: 8px !important;
+}
+
+.cbhLabel:not(.active), #allChbLabel:not(.active), #azChbLabel:not(.active) {
+    background: #dadada;
+    border-radius: 1.2em;
+    font-family: 'Calibri', Fallback, sans-serif;
+    border-color: #dadada;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.cbhLabel, #allChbLabel, #azChbLabel, #cbhAdd {
+    background: #018db1;
+    border-radius: 1.2em;
+    font-family: 'Calibri', Fallback, sans-serif;
+    color: #ffffff;
+    border-color: #018db1;
+    outline: none;
+    display: inline-block;
+    font-weight: bold;
+    margin-top: 2px;
+    font-size: 14px;
+    padding: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+/*
+---------------------- NAVBAR ----------------------
+*/
+
+.headerButton {
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+    .headerButton:hover .child {
+        color: #B5B6BA !important;
+    }
+
+    .headerButton h5 {
+        font-size: 0.7em;
+    }
+
+.headerButtonText {
+    font-size: 20px;
+}
+
+
+
+/****************Overlay on smaller screens*******************/
+
+/* The Overlay (background) */
+.overlay {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */
+    height: 100%;
+    width: 0;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    background-color: #dbdbdb; /* Black fallback color */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+.subMenu {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */
+    background-color: #dbdbdb; /* Black fallback color */
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: none;
+    border-color: #dbdbdb !important;
+}
+
+.menuCardHeader {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */
+    background-color: #dbdbdb; /* Black fallback color */
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: none;
+    border-color: #dbdbdb !important;
+}
+
+.subMenu a {
+    padding: 20px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #808080;
+    display: block; /* Display block instead of inline */
+    transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+    position: relative;
+    top: 25%; /* 25% from the top */
+    width: 100%; /* 100% width */
+    text-align: center; /* Centered text/links */
+    margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+/* The navigation links inside the overlay */
+.overlay a {
+    padding: 20px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #808080;
+    display: block; /* Display block instead of inline */
+    transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+    /* When you mouse over the navigation links, change their color */
+    .overlay a:hover, .overlay a:focus {
+        color: #f1f1f1;
+    }
+
+/* Position the close button (top right corner) */
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+@media screen and (max-height: 450px) {
+    .overlay a {
+        font-size: 20px
+    }
+
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}

@@ -1,0 +1,13 @@
+
+main, nav {
+    max-width: 100%;
+    margin: 0px auto;
+    padding: 0 15px
+}
+
+@media screen and (min-width: 1200px) {
+
+    main, nav {
+        max-width: 83.333333%;
+    }
+}

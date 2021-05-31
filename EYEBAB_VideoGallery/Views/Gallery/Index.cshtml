@@ -1,0 +1,515 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+
+@inject IViewLocalizer Localizer
+@{
+
+
+    List<string> categories = ViewBag.Categories;
+    var requestCulture = ViewBag.Culture;
+
+    string lang = "da-DK";
+
+    if (requestCulture != null)
+    {
+        lang = requestCulture.RequestCulture.Culture.Name;
+    }
+
+
+}
+
+
+<style>
+
+    /*------------Page Styles--------------*/
+
+    section {
+        border-top: 1px solid lightgray;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /*-------------------------------*/
+
+    /*------------Text Styles--------------*/
+
+    .overflow-label {
+        font-size: 1.2rem;
+        position: static;
+    }
+
+    .selection-list li {
+        margin: 2px;
+        background-color: rgba(211, 211, 211, 0.4);
+        color: white;
+        padding: 0 5px;
+        border-radius: 1rem;
+        cursor: pointer;
+        text-transform: capitalize;
+    }
+
+    .selection-list .active {
+        background-color: dodgerblue;
+    }
+
+    article h3 {
+        margin: 0px;
+        font-size: 1.5rem;
+    }
+
+    article h4 {
+        font-size: 1rem;
+        opacity: 0.8;
+        text-transform: capitalize;
+    }
+
+    article p {
+        font-size: 0.75em;
+    }
+
+    .interactive:hover {
+        cursor: pointer;
+    }
+
+    /*-------------------------------*/
+
+    /*------------Gallery Styles--------------*/
+
+    article {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    article section {
+        border-top: 0px;
+        border-bottom: 1px solid lightgray;
+        flex-direction: column;
+        justify-content: start;
+        max-width: 49%;
+    }
+
+    .vid-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-size: cover;
+        background-position: center;
+        min-width: 40%;
+        height: 25vw;
+    }
+
+    .vid-link img {
+        width: 35%;
+        opacity: 0.5;
+    }
+
+    .vid-link:hover img {
+        opacity: 1;
+    }
+
+    i {
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    i.active {
+        opacity: 0.25;
+        cursor: default;
+    }
+
+    /*        listView Styles        */
+
+    .list-view section {
+        max-width: 100%;
+    }
+
+    .list-view .vid-link {
+        width: 200px;
+        height: 130px;
+    }
+
+
+    /*-------------------------------*/
+
+    @@media (min-width: 768px) {
+        .vid-link {
+            margin: 0.5rem 0 0 1.5rem;
+            width: 60%;
+            height: 16vw;
+        }
+
+        .list-view .vid-link {
+
+            height: 200px;
+        }
+
+        #video-gallery h3, #video-gallery h4, #video-gallery p {
+            margin-left: 1.5rem;
+        }
+    }
+
+    @@media (min-width: 992px) {
+        article section {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .vid-link {
+            min-width: 45%;
+            height: 12vw;
+            margin: 0px;
+        }
+
+        .list-view .vid-link {
+            min-width: 0%;
+            width: 280px;
+            height: 150px;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        .overflow-label {
+            position: absolute;
+
+        }
+
+        .selection-list {
+            max-width: 80%;
+        }
+    }
+</style>
+
+<div style="margin-bottom:1em;margin-top:1em">
+
+    <h1 class="eb-h1 eb-grey eb-bold eb-uppercase">@Localizer["Video guides"]</h1>
+</div>
+
+<section class="p-sm-2 position-relative">
+    <div>
+
+        <p class="text-primary m-0 overflow-label" style="top: 0px; left: -4em">@Localizer["Sortering"]</p>
+        <select class="p-sm-1 pr-sm-5 pl-sm-2 rounded" id="sort-selection" aria-label="@Localizer["Vælg sortering"]" onchange="sortGallery()">
+            <option>@Localizer["Ældste"]</option>
+            <option selected>@Localizer["Nyeste"]</option>
+        </select>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+
+        <div class="position-relative d-flex justify-content-center" style="margin-right: 0.5em;">
+            <p class="text-primary mb-0 overflow-label" style="top: 2em; min-width: 4em; right: 0em; margin-right: 0.5em;">
+                @Localizer["Grid view"]
+            </p>
+            <p class="text-primary mb-0 overflow-label" style="top: 2em; min-width: 4em; left: 0.5em; margin-left: 0.5em;">
+                @Localizer["List view"]
+            </p>
+        </div>
+
+        <div class="mt-sm-2 d-flex justify-content-center">
+
+            <i class="fas fa-th eb-grey child active" style="margin-right:10px;" aria-label="@Localizer["Skift til gridview"]"
+               id="grid-view" onclick="toggleGridView(true)"></i>
+            <i class="fas fa-list eb-grey child" aria-label="@Localizer["Skift til listview"]"
+               id="list-view" onclick="toggleGridView(false)" style=""></i>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="p-sm-2 position-relative">
+    <div>
+        <p class="text-primary mb-0 overflow-label" style="top: 1em; left: -2em">
+            @Localizer["Filter"]
+        </p>
+        <ul class="selection-list list-unstyled d-flex flex-wrap">
+            @{
+                for (int i = 0; i < categories.Count; i++)
+                {
+
+                    <li onclick="selectCategory('@categories[i]', @i)" data-value="@categories[i]">@Localizer[categories[i]]</li>
+                }
+            }
+        </ul>
+    </div>
+
+</section>
+
+<article id="video-gallery" class="m-sm-1 mt-sm-2 hight-100">
+</article>
+
+<script>
+    
+    const dummyData = [
+        {
+            vidId: "OK4tP8kJh8I",
+            header: "App - Figure It",
+            categories: ["afkodning", "overblick"],
+            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+                "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
+            date: "2021-05-19T13:44:00",
+        },
+        {
+            vidId: "https://www.youtube.com/watch?v=d2_jJVjZogA",
+            header: "App - Peripheral Chart",
+            categories: ["overblick", "reaktion"],
+            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+                "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
+            date: "2021-05-19T13:43:00",
+        },
+        {
+            vidId: "https://www.youtube.com/watch?v=h-jl0BZvxh0",
+            header: "App - Rotation Match",
+            categories: ["reaktion", "overblick", "synsfelt"],
+            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+                "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
+            date: "2021-05-19T13:42:00",
+        },
+        {
+            vidId: "https://www.youtube.com/watch?v=2HKNFVUoTFg",
+            header: "App - Arrow",
+            categories: ["afkodning", "overblick", "koncentration", "reaktion"],
+            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+                "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
+            date: "2021-05-19T13:41:00",
+        },
+        {
+            vidId: "https://www.youtube.com/watch?v=bN4qjIFZP-s",
+            header: "App - Pathfinder",
+            categories: ["afkodning", "rækkefølge"],
+            desc: "Lorem Ipsum har været branchens standard dummy-tekst lige siden 1500'erne," +
+                "da en ukendt printer tog en kabyss af typen og krypterede den for at lave en typeprøvebog.",
+            date: "2021-05-19T13:40:00",
+        },
+    ];
+    const dataURL = "https://localhost:44389/api/Gallery/";
+    let galleryData = [];
+    let defaultGalleryData = [];
+
+    let selectedCategory = "";
+    const localizedCategories = {};
+
+    const gallery = document.querySelector("#video-gallery");
+    const sortSelection = document.querySelector("#sort-selection");
+    const categoryList = document.querySelector(".selection-list");
+    const gridView = document.querySelector("#grid-view");
+    const listView = document.querySelector("#list-view");
+
+    //Get local translation for every category
+    function localizeCategories() {
+
+        for (let i = 0; i < categoryList.children.length; i++) {
+
+            localizedCategories[categoryList.children[i].dataset.value] =
+                categoryList.children[i].innerText;
+
+        }
+    }
+    localizeCategories();
+
+    //Get video gallery data from database
+    function loadData() {
+
+        //Fetch the default data
+        fetch(dataURL + "da-DK")
+            .then(res => res.json())
+            .then((out) => {
+
+                defaultGalleryData = out;
+
+                //If the default language is selected, create the gallery
+                //If not, fetch the selected language
+                if ("da-DK" == "@lang") {
+
+                    selectCategory("alle", 0);
+                }
+                else {
+
+                    fetch(dataURL + "@lang")
+                        .then(res => res.json())
+                        .then((out) => {
+
+                            galleryData = out;
+
+                            selectCategory("alle", 0);
+
+                        })
+                        .catch(err => { throw err });
+
+                }
+
+            })
+            .catch(err => { throw err });
+
+    }
+    loadData();
+
+    //Remove video gallery and replace it
+    function reloadVideos() {
+
+        gallery.innerHTML = "";
+
+        for (let i = 0; i < defaultGalleryData.length; i++) {
+
+            //If translation of this video section does not exist use the default
+            let videoData = galleryData.find(data => data.videoId == defaultGalleryData[i].videoId);
+
+            if (!videoData) {
+                videoData = defaultGalleryData[i];
+            }
+
+            if (selectedCategory == "alle" || videoData.categories.includes(selectedCategory)) {
+
+                const section = document.createElement("section");
+                section.className = "pb-sm-3";
+
+                //Get video id from youtube link
+                const vidId = videoData.videoLink.replace("https://www.youtube.com/watch?v=", "");
+
+                //Create and configure video link
+                const vidLink = document.createElement("a");
+                vidLink.setAttribute("aria-label", "@Localizer["Afspil video"]")
+                vidLink.setAttribute("href", "https://www.youtube.com/watch?v=" + vidId);
+                vidLink.setAttribute("style", `background-image: url('https://img.youtube.com/vi/${vidId}/hqdefault.jpg')`);
+                vidLink.classList = "vid-link rounded-lg";
+
+                //Create and configure play button image
+                const playBtn = document.createElement("img");
+                playBtn.setAttribute("alt", "@Localizer["Afspil knap"]");
+                try {
+
+                    playBtn.setAttribute("src", "/images/play_icon.png");
+                } catch (e) {
+
+                }
+
+                vidLink.appendChild(playBtn);
+
+                section.appendChild(vidLink);
+
+                //Create and configure viewtoggle container
+                const div = document.createElement("div");
+
+                //Create and configure heading
+                const header = document.createElement("h3");
+                header.classList = "eb-grey";
+                header.innerHTML = videoData.title;
+
+                //Create and configure categories
+                const categories = document.createElement("h4");
+                categories.classList = "eb-grey";
+
+                //Translate the categories
+                const filter = [];
+                for (let i = 0; i < videoData.categories.length; i++) {
+
+                    filter.push(localizedCategories[videoData.categories[i]]);
+
+                }
+
+                categories.innerHTML = filter.join(', ');
+
+                //Create and configure description
+                const text = document.createElement("p");
+                text.className = "eb-grey mb-0";
+                text.innerHTML = videoData.description;
+
+                div.appendChild(header);
+                div.appendChild(categories);
+                div.appendChild(text);
+
+                section.appendChild(div);
+
+                gallery.appendChild(section);
+
+            }
+
+        }
+
+    }
+
+    //Sort gallery by the selected option and reload it
+    function sortGallery() {
+
+        //Replace dummydata with data from database
+        switch (sortSelection.selectedIndex) {
+
+            case 0:
+
+                //Sort by the oldest
+                defaultGalleryData.sort((vidOne, vidTwo) => {
+                    const dateOne = new Date(vidOne.date);
+                    const dateTwo = new Date(vidTwo.date);
+                    if (dateOne < dateTwo) {
+                        return -1;
+                    }
+                    else if (dateOne > dateTwo) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
+
+                break;
+            case 1:
+
+                //Sort by the newest
+                defaultGalleryData.sort((vidOne, vidTwo) => {
+                    const dateOne = new Date(vidOne.date);
+                    const dateTwo = new Date(vidTwo.date);
+                    if (dateOne < dateTwo) {
+                        return 1;
+                    }
+                    else if (dateOne > dateTwo) {
+                        return -1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
+                break;
+        }
+
+        //Reload gallery
+        reloadVideos();
+
+    }
+
+    //Select a category and filter the gallery
+    function selectCategory(category, index) {
+
+        //Update the selected category and filter the gallery
+        selectedCategory = category;
+        reloadVideos();
+
+        //Remove the active state and add it to the selected category
+        const oldCategory = categoryList.querySelector(".active");
+        if (oldCategory != null) {
+            oldCategory.classList.remove("active");
+        }
+
+        categoryList.children[index].classList.add("active");
+
+    }
+
+    //Toggle between grid and list styled gallery
+    function toggleGridView(isGrid = false) {
+
+        if (isGrid) {
+            gridView.classList.add("active");
+            listView.classList.remove("active");
+        }
+        else {
+
+            gridView.classList.remove("active");
+            listView.classList.add("active");
+        }
+
+        gallery.classList.toggle("list-view", !isGrid);
+
+    }
+
+</script>
