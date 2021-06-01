@@ -15,6 +15,7 @@
     {
         lang = requestCulture.RequestCulture.Culture.Name;
     }
+
     if (categories == null)
     {
         categories = new List<string>() {
@@ -66,18 +67,18 @@
         background-color: dodgerblue;
     }
 
-    article h3 {
+    #video-gallery h3 {
         margin: 0px;
         font-size: 1.5rem;
     }
 
-    article h4 {
+    #video-gallery h4 {
         font-size: 1rem;
         opacity: 0.8;
         text-transform: capitalize;
     }
 
-    article p {
+    #video-gallery p {
         font-size: 0.75em;
     }
 
@@ -89,13 +90,13 @@
 
     /*------------Gallery Styles--------------*/
 
-    article {
+    #video-gallery {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
 
-    article section {
+    #video-gallery section {
         border-top: 0px;
         border-bottom: 1px solid lightgray;
         flex-direction: column;
@@ -134,13 +135,13 @@
 
     /*        listView Styles        */
 
-    .list-view section {
+    #video-gallery.list-view section {
         max-width: 100%;
     }
 
-    .list-view .vid-link {
+    #video-gallery.list-view .vid-link {
         width: 200px;
-        height: 130px;
+        height: 160px;
     }
 
 
@@ -153,8 +154,7 @@
             height: 16vw;
         }
 
-        .list-view .vid-link {
-
+        #video-gallery.list-view .vid-link {
             height: 200px;
         }
 
@@ -164,7 +164,7 @@
     }
 
     @@media (min-width: 992px) {
-        article section {
+        #video-gallery section {
             flex-direction: row;
             justify-content: space-between;
         }
@@ -175,21 +175,10 @@
             margin: 0px;
         }
 
-        .list-view .vid-link {
+        #video-gallery.list-view .vid-link {
             min-width: 0%;
             width: 280px;
             height: 150px;
-        }
-    }
-
-    @@media (min-width: 1200px) {
-        .overflow-label {
-            position: absolute;
-
-        }
-
-        .selection-list {
-            max-width: 80%;
         }
     }
 </style>
@@ -200,56 +189,35 @@
 </div>
 
 <section class="p-sm-2 position-relative">
-    <div>
+    <select class="p-sm-1 pr-sm-5 pl-sm-2 rounded" id="sort-selection" aria-label="@Localizer["Vælg sortering"]" onchange="sortGallery()">
+        <option>@Localizer["Ældste"]</option>
+        <option selected>@Localizer["Nyeste"]</option>
+    </select>
+    <div class="mt-sm-2 d-flex justify-content-center mr-sm-3">
 
-        <p class="text-primary m-0 overflow-label" style="top: 0px; left: -4em">@Localizer["Sortering"]</p>
-        <select class="p-sm-1 pr-sm-5 pl-sm-2 rounded" id="sort-selection" aria-label="@Localizer["Vælg sortering"]" onchange="sortGallery()">
-            <option>@Localizer["Ældste"]</option>
-            <option selected>@Localizer["Nyeste"]</option>
-        </select>
-    </div>
-    <div class="d-flex flex-column align-items-center">
-
-        <div class="position-relative d-flex justify-content-center" style="margin-right: 0.5em;">
-            <p class="text-primary mb-0 overflow-label" style="top: 2em; min-width: 4em; right: 0em; margin-right: 0.5em;">
-                @Localizer["Grid view"]
-            </p>
-            <p class="text-primary mb-0 overflow-label" style="top: 2em; min-width: 4em; left: 0.5em; margin-left: 0.5em;">
-                @Localizer["List view"]
-            </p>
-        </div>
-
-        <div class="mt-sm-2 d-flex justify-content-center">
-
-            <i class="fas fa-th eb-grey child active" style="margin-right:10px;" aria-label="@Localizer["Skift til gridview"]"
-               id="grid-view" onclick="toggleGridView(true)"></i>
-            <i class="fas fa-list eb-grey child" aria-label="@Localizer["Skift til listview"]"
-               id="list-view" onclick="toggleGridView(false)" style=""></i>
-
-        </div>
+        <i class="fas fa-th eb-grey child active" style="margin-right:10px;" aria-label="@Localizer["Skift til gridview"]"
+           id="grid-view" onclick="toggleGridView(true)"></i>
+        <i class="fas fa-list eb-grey child" aria-label="@Localizer["Skift til listview"]"
+           id="list-view" onclick="toggleGridView(false)" style=""></i>
 
     </div>
 </section>
 
 <section class="p-sm-2 position-relative">
-    <div>
-        <p class="text-primary mb-0 overflow-label" style="top: 1em; left: -2em">
-            @Localizer["Filter"]
-        </p>
-        <ul class="selection-list list-unstyled d-flex flex-wrap">
-            @{
-                for (int i = 0; i < categories.Count; i++)
-                {
+    <ul class="selection-list list-unstyled d-flex flex-wrap">
+        @{
+            for (int i = 0; i < categories.Count; i++)
+            {
 
-                    <li onclick="selectCategory('@categories[i]', @i)" data-value="@categories[i]">@Localizer[categories[i]]</li>
-                }
+                <li onclick="selectCategory('@categories[i]', @i)" data-value="@categories[i]">@Localizer[categories[i]]</li>
             }
-        </ul>
-    </div>
+        }
+    </ul>
 
 </section>
 
 <article id="video-gallery" class="m-sm-1 mt-sm-2 hight-100">
+
 </article>
 
 <script>
@@ -356,6 +324,7 @@
             .catch(err => { throw err });
 
     }
+
     //Uncomment when the url is linked to the correct api
     //loadData();
 
