@@ -135,6 +135,9 @@
   <data name="koordination" xml:space="preserve">
     <value>coordination</value>
   </data>
+  <data name="Luk" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="læsning" xml:space="preserve">
     <value>reading</value>
   </data>

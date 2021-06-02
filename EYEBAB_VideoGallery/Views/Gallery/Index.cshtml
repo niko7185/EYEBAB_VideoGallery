@@ -37,11 +37,16 @@
 
     /*------------Page Styles--------------*/
 
+
     section {
         border-top: 1px solid lightgray;
         padding: 5px;
         display: flex;
         justify-content: space-between;
+    }
+
+    body:not(.modal-open) {
+        padding-right: 0px !important;
     }
 
     /*-------------------------------*/
@@ -96,13 +101,13 @@
         justify-content: space-between;
     }
 
-    #video-gallery section {
-        border-top: 0px;
-        border-bottom: 1px solid lightgray;
-        flex-direction: column;
-        justify-content: start;
-        max-width: 49%;
-    }
+     #video-gallery section {
+         border-top: 0px;
+         border-bottom: 1px solid lightgray;
+         flex-direction: column;
+         justify-content: start;
+         max-width: 49%;
+     }
 
     .vid-link {
         display: flex;
@@ -144,8 +149,35 @@
         height: 160px;
     }
 
+    /*        Modal Styles        */
+
+    .modal-title {
+        margin-left: 1rem;
+    }
+
+    .video-player {
+        width: 100%;
+        height: 52vw;
+        margin: 0 auto;
+        display: block;
+        /*675*/
+    }
+
+    button[data-dismiss="modal"] {
+        margin-right: 1rem;
+    }
 
     /*-------------------------------*/
+
+    @@media (min-width: 576px) {
+
+        .video-player {
+
+            width: 95%;
+            height: 253px;
+        }
+
+    }
 
     @@media (min-width: 768px) {
         .vid-link {
@@ -158,7 +190,7 @@
             height: 200px;
         }
 
-        #video-gallery h3, #video-gallery h4, #video-gallery p {
+        #video-gallery h3, #video-gallery h4, #video-gallery p, #video-gallery button {
             margin-left: 1.5rem;
         }
     }
@@ -180,8 +212,36 @@
             width: 280px;
             height: 150px;
         }
+
+        .video-player {
+
+            height: 415px;
+        }
     }
 </style>
+
+<div class="modal fade" id="videoModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title eb-h1 eb-grey eb-bold"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <iframe class="video-player" allow="fullscreen;">
+
+                </iframe>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn eb-button" data-dismiss="modal">@Localizer["Luk"]</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <div style="margin-bottom:1em;margin-top:1em">
 
@@ -217,11 +277,10 @@
 </section>
 
 <article id="video-gallery" class="m-sm-1 mt-sm-2 hight-100">
-
 </article>
 
 <script>
-    
+
     const dummyData = [
         {
             videoLink: "OK4tP8kJh8I",
@@ -264,6 +323,7 @@
             date: "2021-05-19 13:40:00",
         },
     ];
+
     const dataURL = "https://localhost:44389/api/Gallery/";
     let galleryData = [];
     let defaultGalleryData = [];
@@ -276,6 +336,11 @@
     const categoryList = document.querySelector(".selection-list");
     const gridView = document.querySelector("#grid-view");
     const listView = document.querySelector("#list-view");
+
+    const videoModal = document.querySelector("#videoModal");
+    const videoTitle = videoModal.querySelector(".modal-title");
+    const videoPlayer = videoModal.querySelector(".video-player");
+    const modelCloseBtns = videoModal.querySelectorAll("button[data-dismiss='modal'");
 
     //Get local translation for every category
     function localizeCategories() {
@@ -316,12 +381,16 @@
                             selectCategory("alle", 0);
 
                         })
-                        .catch(err => { throw err });
+                        .catch(err => {
+                            console.error(err);
+                        });
 
                 }
 
             })
-            .catch(err => { throw err });
+            .catch(err => {
+                console.error(err);
+            });
 
     }
 
@@ -358,9 +427,12 @@
                 //Create and configure video link
                 const vidLink = document.createElement("a");
                 vidLink.setAttribute("aria-label", "@Localizer["Afspil video"]")
-                vidLink.setAttribute("href", "https://www.youtube.com/watch?v=" + vidId);
+                vidLink.setAttribute("href", "#videoModal");
+                vidLink.dataset.toggle = "modal";
                 vidLink.setAttribute("style", `background-image: url('https://img.youtube.com/vi/${vidId}/hqdefault.jpg')`);
                 vidLink.classList = "vid-link rounded-lg";
+
+                vidLink.addEventListener("click", () => showVideo(videoData));
 
                 //Create and configure play button image
                 const playBtn = document.createElement("img");
@@ -369,7 +441,7 @@
 
                     playBtn.setAttribute("src", "/images/play_icon.png");
                 } catch (e) {
-
+                    console.error(e);
                 }
 
                 vidLink.appendChild(playBtn);
@@ -498,5 +570,35 @@
         gallery.classList.toggle("list-view", !isGrid);
 
     }
+
+    //When showing the modal, show the clicked video inside it
+    function showVideo(vidData) {
+
+        if (vidData) {
+            videoTitle.innerText = vidData.title;
+
+            const vidId = vidData.videoLink.replace("https://www.youtube.com/watch?v=", "");
+            videoPlayer.setAttribute("src", "https://www.youtube.com/embed/" + vidId);
+
+        }
+
+    }
+
+    //When closing the modal, stop the video
+    function hideVideo() {
+        const vidSrc = videoPlayer.getAttribute("src");
+        videoPlayer.setAttribute("src", vidSrc);
+    }
+
+    videoModal.addEventListener("click", (event) => {
+
+        if (!event.target.closest(".modal-content")) {
+            hideVideo();
+        }
+
+    });
+    modelCloseBtns.forEach(btn => btn.addEventListener("click", hideVideo));
+
+
 
 </script>

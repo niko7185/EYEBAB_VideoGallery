@@ -138,6 +138,9 @@
   <data name="List view" xml:space="preserve">
     <value>Listenansicht</value>
   </data>
+  <data name="Luk" xml:space="preserve">
+    <value>Schließe</value>
+  </data>
   <data name="læsning" xml:space="preserve">
     <value>lesung</value>
   </data>
